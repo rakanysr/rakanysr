@@ -4,7 +4,7 @@ on:
   schedule: [{cron: "0 0 * * *"}]
   # Bisa dijalankan manual
   workflow_dispatch:
-  # Update setiap kali ada push ke branch main/master
+  # Update setiap kali ada push ke branch main
   push: {branches: ["master", "main"]}
 
 jobs:
@@ -15,45 +15,28 @@ jobs:
     steps:
       - uses: lowlighter/metrics@latest
         with:
-          # Token yang tadi kamu set di Secrets
           token: ${{ secrets.METRICS_TOKEN }}
 
-          # Opsi Dasar
-          user: rakanysr # GANTI DENGAN USERNAME KAMU
+          # --- Setting Dasar ---
+          user: rakanysr
           template: classic
           base: header, activity, community, repositories, metadata
-          config_timezone: Asia/Jakarta # Sesuaikan waktu
+          config_timezone: Asia/Jakarta
           
-          # Plugin: IsoCalendar (Grafik kotak-kotak 3D hijau di gambar)
+          # --- Grafik 3D (Yang warna hijau kotak-kotak) ---
           plugin_isocalendar: yes
           plugin_isocalendar_duration: half-year
 
-          # Plugin: Languages (Bar bahasa pemrograman yang sering dipakai)
+          # --- Bahasa Pemrograman ---
           plugin_languages: yes
           plugin_languages_ignored: >-
             html, css
           plugin_languages_details: lines, percentage
           plugin_languages_sections: most-used
-          plugin_languages_indepth: yes
-
-          # Plugin: Habits (Grafik coding habits & time of day)
-          plugin_habits: yes
-          plugin_habits_from: 200
-          plugin_habits_days: 14
-          plugin_habits_facts: yes
-          plugin_habits_charts: yes
-
-          # Plugin: Topics (Ikon-ikon teknologi di bawah "Mastered technologies")
+          
+          # --- Topik (Icon Tech) ---
+          # Saya set ke 'stars' agar mengambil dari repo orang lain yang kamu star
           plugin_topics: yes
-          plugin_topics_limit: 15
+          plugin_topics_sort: stars
           plugin_topics_mode: icons
-
-          # Plugin: PageSpeed (Skor hijau bulat di atas)
-          # Note: Ini butuh API Key Google terpisah agar akurat, tapi ini setting defaultnya
-          plugin_pagespeed: yes
-          plugin_pagespeed_url: .user.website # Mengambil link website di bio kamu
-
-          # Plugin: Music (Lagu yang sedang diputar/disarankan)
-          # Note: Butuh setup tambahan login Spotify/Apple Music jika ingin realtime
-          plugin_music: yes
-          plugin_music_provider: lastfm # Paling mudah setupnya jika punya akun Last.fm
+          plugin_topics_limit: 15
